@@ -1,0 +1,14 @@
+video {
+	position: absolute;
+	display:block;
+	background-color: black;
+	margin: 0;
+	left:25%;
+	width: 50%;
+	height: 50vw;
+	top: 6em;
+}
+
+.photocapt{
+	border: solid 2px black;
+}
