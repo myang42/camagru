@@ -10,9 +10,25 @@
 	</div>
 
 	<!--    RIGHT NAV MENU  !-->
-	<div class="iconmenur iconm" id="loginicon">
-		<a href="loginaccount.php" style="position:inherit;margin:0;padding:0;width:100%;"><img src="./other/icons8-login-50.png" alt="login" title="login" ></a>
-	</div>
+		<!--    if you are logout/login  !-->
+	<?php
+		session_start();
+		if ($_SESSION['user'] == NULL){
+		?>
+			<div class="iconmenur iconm" id="loginicon">
+				<a href="loginaccount.php" style="position:inherit;margin:0;padding:0;width:100%;"><img src="./other/icons8-login-50.png" alt="login" title="login" ></a>
+			</div>
+	 	<?php
+		}
+		else{
+		?>
+			<div class="iconmenur iconm" id="loginicon">
+				<a href="logout.php" style="position:inherit;margin:0;padding:0;width:100%;"><img src="./other/icons8-shutdown-50.png" alt="logout" title="logout" ></a>
+			</div>
+		<?php
+			}
+		?>
+
 	<div class="iconmenur iconm" id="searchicon">
 		<a href="search.php" style="position:inherit;margin:0;padding:0;width:100%;"><img src="./other/icons8-zoom-in-50.png" alt="search" title="search" ></a>
 	</div>
