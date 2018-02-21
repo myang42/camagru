@@ -30,10 +30,19 @@
 		?>
 
 	<div class="iconmenur iconm" id="searchicon">
-		<a href="search.php" style="position:inherit;margin:0;padding:0;width:100%;"><img src="./other/icons8-zoom-in-50.png" alt="search" title="search" ></a>
+		<a href="faq.php" style="position:inherit;margin:0;padding:0;width:100%;"><img src="./other/icons8-help-50.png" alt="faq" title="faq" ></a>
+
+		<!-- <a href="mygallery.php" style="position:inherit;margin:0;padding:0;width:100%;"><img src="./other/icons8-photo-gallery-50.png" alt="myGallery" title="myGallery" ></a> -->
 	</div>
 	<div class="iconmenur iconm" id="faqicon">
-		<a href="faq.php" style="position:inherit;margin:0;padding:0;width:100%;"><img src="./other/icons8-help-50.png" alt="faq" title="faq" ></a>
+		<?php
+			if ($_SESSION['user'] != NULL){
+					?>
+					<a href="mygallery.php" style="position:inherit;margin:0;padding:0;width:100%;"><img src="./other/icons8-photo-gallery-50.png" alt="myGallery" title="myGallery" ></a>
+
+		<?php
+		}
+		?>
 	</div>
 	<div class="iconmenur iconm" id="menuicon">
 		<img src="./other/icons8-menu-50.png" alt="menu" title="" >

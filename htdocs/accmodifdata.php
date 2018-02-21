@@ -1,5 +1,8 @@
 <?php
 	session_start();
+	require_once("database.php");
+	include("verification.php");
+	$bd = new PDO($DB_DSN , $DB_USER, $DB_PASSWORD);
 
 	function error_pwd($type){
 		if ($type == 1){
@@ -29,28 +32,31 @@
 		</script>";
 	}
 
-	function changepwd(){
+	function changepwd($bd){
 		$newpwd = $_POST['newpassword'];
-		$usr = $_SESSION['user'];
-		require_once("database.php");
-		$bd = new PDO($DB_DSN , $DB_USER, $DB_PASSWORD);
+		$usr = $_SESSION['username'];
 		if ($bd){
-			$req = "UPDATE accountinfos SET password='".$newpwd."' WHERE user='".$usr."'";
+			$req = "UPDATE accountinfos SET password='".$newpwd."' WHERE username='".$username."'";
 			$act = $bd->prepare($req);
 			$act->execute();
 		}
 	}
 
-	function changemail(){
+	function changemail($bd){
 		$newpwd = $_POST['newmail'];
-		$usr = $_SESSION['user'];
-		require_once("database.php");
-		$bd = new PDO($DB_DSN , $DB_USER, $DB_PASSWORD);
+		// $usr = $_SESSION['user'];
+		// require_once("database.php");
+		// include("./verification.php");
+
+
+		// $bd = new PDO($DB_DSN , $DB_USER, $DB_PASSWORD);
 		if ($bd){
-			$req = "UPDATE accountinfos SET mail='".$newpwd."' WHERE user='".$usr."'";
+			$usr = username($_SESSION['username'], $bd);
+			$req = "UPDATE accountinfos SET mail='".$newpwd."' WHERE username='".$usr['username']."'";
 			$act = $bd->prepare($req);
 			$act->execute();
 		}
+		$_SESSION['mail'] = $newpwd;
 		header ('Location: ./accmodif.php');
 	}
 
@@ -73,10 +79,15 @@
 
 	if (isset($_POST['newmail'])){
 		if ($_POST['newmail'] === $_POST['confirmmail']){
-			changemail();
+			changemail($bd);
 		}
 		else
 			error_mail();
+	}
+
+	if (isset($_POST['newlog'])){
+
+		header ('Location: ./accmodif.php');
 	}
 	// header ('Location: ./accmodif.php');
 ?>

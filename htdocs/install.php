@@ -11,19 +11,17 @@
 	if ($connect){
 		$requete = 'CREATE TABLE IF NOT EXISTS accountinfos
 				(id INT PRIMARY KEY AUTO_INCREMENT NOT NULL, user VARCHAR(12)
-				NOT NULL DEFAULT "visiteur", password VARCHAR(254) NOT NULL, groupe ENUM("admin", "member", "visitor")
-				NOT NULL, mail VARCHAR(254), date_inscription DATE NOT NULL)';
+				NOT NULL DEFAULT "visitor", password VARCHAR(254) NOT NULL, groupe ENUM("admin", "member", "visitor")
+				NOT NULL, mail VARCHAR(254), date_inscription DATE NOT NULL, avatar VARCHAR(254) NOT NULL DEFAULT "./other/member.png", username VARCHAR(33) NOT NULL)';
 		$do = $connect->prepare($requete);
 		$do->execute();
 
 	// <-- CREATION DE LA GALLERIE -->
 		$requete3 = "CREATE TABLE IF NOT EXISTS gallery(
-					username VARCHAR(12) NOT NULL,
 					iduser INT NOT NULL,
 					idpic INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
 					title VARCHAR(26) NOT NULL DEFAULT 'photo',
 					description VARCHAR(254),
-					tags VARCHAR(254),
 					acces_path VARCHAR(254) NOT NULL, post_date DATE NOT NULL,
 					modif_date DATE)";
 		$do = $connect->prepare($requete3);
@@ -31,18 +29,39 @@
 
 	// <--INSERTION DE L ADMINISTRATEUR-->
 		$mdp = hash('whirlpool', '0000Abcd');
+		$username = md5(uniqid(rand(), true));
+
 		$req = 'SELECT user FROM accountinfos WHERE user = "admin"';
 		$do = $connect->prepare($req);
 		$do->execute();
 		$res = $do->fetch(PDO::FETCH_ASSOC);
 		if (!$res){
-			$requete2 = 'INSERT INTO accountinfos(user,password,groupe, mail, date_inscription)
-			VALUES ("admin", "' . $mdp . '", "admin", "user@user.com", CURRENT_DATE)';
+			$requete2 = 'INSERT INTO accountinfos(user,password,groupe, mail, date_inscription, username)
+			VALUES ("admin", "' . $mdp . '", "admin", "user@user.com", CURRENT_DATE, "'. $username .'")';
 			$do = $connect->prepare($requete2);
 			$do->execute();
+			if (!file_exists("./photos/" . $username)){
+				mkdir("./photos/" . $username);
 		}
-		if (!file_exists("./photos/visitors")){
-			mkdir("./photos/visitors");
+
+		// <-- CREATION DE LA DATABASE POUR COMMENTAIREs -->
+		$req = 'CREATE TABLE IF NOT EXISTS comm(
+    						id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
+                         	iduser INT NOT NULL,
+                           	idpost INT NOT NULL,
+                           	content VARCHAR(254),
+                           	post_date DATE NOT NULL);';
+		$do = $connect->prepare($req);
+		$do->execute();
+
+		// <-- CREATION DE LA DATABASE POUR LIKEs -->
+		$req = 'CREATE TABLE IF NOT EXISTS lik(
+							id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
+							iduser INT NOT NULL,
+							idpost INT NOT NULL,
+		);';
+		$do = $connect->prepare($req);
+		$do->execute();
 	}
 	}
 ?>
