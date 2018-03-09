@@ -22,8 +22,8 @@
 					idpic INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
 					title VARCHAR(26) NOT NULL DEFAULT 'photo',
 					description VARCHAR(254),
-					acces_path VARCHAR(254) NOT NULL, post_date DATE NOT NULL,
-					modif_date DATE)";
+					acces_path VARCHAR(254) NOT NULL, post_date DATETIME NOT NULL,
+					modif_date DATETIME)";
 		$do = $connect->prepare($requete3);
 		$do->execute();
 
@@ -42,17 +42,27 @@
 			$do->execute();
 			if (!file_exists("./photos/" . $username)){
 				mkdir("./photos/" . $username);
+			}
 		}
-
 		// <-- CREATION DE LA DATABASE POUR COMMENTAIREs -->
 		$req = 'CREATE TABLE IF NOT EXISTS comm(
     						id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
                          	iduser INT NOT NULL,
                            	idpost INT NOT NULL,
                            	content VARCHAR(254),
-                           	post_date DATE NOT NULL);';
+                           	post_date DATETIME NOT NULL);';
 		$do = $connect->prepare($req);
 		$do->execute();
+
+		// <-- CREATION DE LA DATABASE POUR LES PHOTOS_TEMPORAIRE -->
+		$req = 'CREATE TABLE IF NOT EXISTS photos_tmp(
+							id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
+							username VARCHAR(254) NOT NULL,
+							path_photo VARCHAR(254) DEFAULT NULL
+				);';
+		$do = $connect->prepare($req);
+		$do->execute();
+
 
 		// <-- CREATION DE LA DATABASE POUR LIKEs -->
 		$req = 'CREATE TABLE IF NOT EXISTS lik(
@@ -62,6 +72,31 @@
 		);';
 		$do = $connect->prepare($req);
 		$do->execute();
-	}
+
+		// <-- CREATE TMP_SAVE -->
+		if (!file_exists("./other/tmp_saved")){
+			mkdir("./photos/tmp_saved");
+		}
+
+		// <--CREATION DE LA DATABASE POUR LES FILTRES-->//
+		$req = 'CREATE TABLE IF NOT EXISTS filters_table(
+							id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
+							path_img VARCHAR(254) DEFAULT null
+		);';
+		$do = $connect->prepare($req);
+		if ($do->execute()){
+			$req2 = "INSERT INTO filters_table(path_img)
+					VALUES ('./other/filters/frame_filter.png'),
+						('./other/filters/frame_filter2.png'),
+						('./other/filters/Gunter.png'),
+						('./other/filters/hellokitty.png'),
+						('./other/filters/herbi.png'),
+						('./other/filters/tortank.png'),
+						('./other/filters/sala.png'),
+						('./other/filters/starkhouse.png'),
+						('./other/filters/randm.png');";
+			$do = $connect->prepare($req2);
+			$do->execute();
+		}
 	}
 ?>

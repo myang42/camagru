@@ -12,6 +12,7 @@
 	<?php
 		// Include("exportfile.php");
 		require_once("menunav.html");
+		require_once("footer.html");
 		require_once("cam.html");
 		if (!file_exists('./photos')){
 			mkdir('./photos');

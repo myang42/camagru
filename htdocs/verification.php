@@ -23,7 +23,7 @@ function login(){
 }
 
 function create(){
-	$usr = $_POST['user'];
+	$usr = htmlspecialchars($_POST['user'], ENT_QUOTES | ENT_HTML5);
 	$password = hash('whirlpool', $_POST['password']);
 	$mail = $_POST['mail'];
 
@@ -38,8 +38,10 @@ function create(){
 			return(0);
 		else{
 			$username = md5(uniqid(rand(), true));
-			$requete = "INSERT INTO accountinfos (user, password, groupe, mail, date_inscription, username)
-			SELECT '".$usr."','".$password."','member','".$mail."', CURRENT_DATE(). '". $username."'";
+			$requete = "INSERT INTO accountinfos (user, password, groupe, mail, date_inscription, username, avatar)
+						VALUES ('".$usr."','".$password."','member','".$mail."', CURRENT_DATE, '". $username."', './other/member.png')";
+					echo $requete;
+
 			$act = $bd->prepare($requete);
 			$do = $act->execute();
 			if (!file_exists("./photos/".$username)){
@@ -57,13 +59,14 @@ function create(){
 
 function username($username, $bd){
 
-		$requete = "SELECT * FROM accountinfos WHERE username LIKE '".$username."'";
+		$requete = "SELECT * FROM accountinfos WHERE username='".$username."'";
 		$act = $bd->prepare($requete);
 		$act->execute();
 		$res = $act->fetch(PDO::FETCH_ASSOC);
 		if ($res != NULL){
 			return($res);
 		}
+		return(NULL);
 }
 
 function whoisit(){
