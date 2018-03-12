@@ -1,8 +1,9 @@
 <?php
 	session_start();
 	require_once('database.php');
+	if ($_SESSION['username']){
 	$connect = new PDO($DB_DSN , $DB_USER, $DB_PASSWORD);
-// if ($_SERVER['REQUEST_METHOD'] == 'POST'){
+
 		$_FILES['img']['name'];
 		$_FILES['img']['type'];
 		$_FILES['img']['tmp_name'];
@@ -85,5 +86,7 @@
 		window.location.href  = './mygallery.php';
 		</script>";
 		}
-	// }
+	 }else{
+	 		header("Location: ./loginaccount.php");
+	 	}
 		?>

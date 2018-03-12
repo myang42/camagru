@@ -2,9 +2,12 @@
 	session_start();
 	require_once("database.php");
 	include("verification.php");
+	if ($_SESSION['usermame']){
+
 	$bd = new PDO($DB_DSN , $DB_USER, $DB_PASSWORD);
 
 	function changeinfos($bd, $new, $needed, $val){
+		$new = htmlspecialchars($new, ENT_QUOTES | ENT_HTML5 );
 		if ($bd){
 			if ($val == true){
 				$check = "SELECT ".$needed." FROM accountinfos WHERE " . $needed . "='".$new."'";
@@ -45,8 +48,16 @@
 			$error['newmail'] = 2;
 		}
 		if ($_POST['newlog'] && $_POST['newlog'] != $_SESSION['user']){
-			if (changeinfos($bd, $_POST['newlog'], 'user', true) == false){
-				$error['newlog'] = 1;
+			if (strlen($_POST['newlog']) >= 13){
+				$error['newlog'] = 2;
+			}
+			else if (trim($_POST['newlog']) == NULL){
+				$error['newlog'] = 3;
+			}
+			else{
+				if (changeinfos($bd, $_POST['newlog'], 'user', true) == false){
+					$error['newlog'] = 1;
+				}
 			}
 		}
 		if ($_SESSION['password'] == $pass){
@@ -82,17 +93,19 @@
 		}
 		if ($error['newlog'] == 0 && $error['newpass'] == 0 && $error['newmail'] == 0){
 			echo "<script type='text/javascript'>
-			alert('All informations from your account have beem updated.');
+			alert('All informations are now updated.');
 			window.location.href='./accmodif.php';
 			</script>";
 		}
 	}
 	else{
 		if (isset($_POST['sub1'])){
-			echo "ERROR";
 			$error['newlog'] = 1;
 			$error['newpass'] = 1;
 			$error['newmail'] = 1;
 		}
 	}
+}else{
+	header("Location: ./loginaccount.php");
+}
 ?>

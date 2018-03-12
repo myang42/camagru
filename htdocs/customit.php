@@ -16,6 +16,7 @@
 	require_once("menunav.php");
 	require_once("footer.html");
 	require_once('database.php');
+	if ($_SESSION['username']){
 	$connect = new PDO($DB_DSN , $DB_USER, $DB_PASSWORD);
 
 	function resize_if($w, $h,$res, $save){
@@ -23,7 +24,7 @@
 		$infos = getimagesize($file);
 		$type = $infos['mime'];
 
-		if ($w >= $h){
+		if ($h <= 700){
 			$nw = 1420;
 			$nh = intval((1420 * $h) / $w);
 		}
@@ -68,8 +69,10 @@
 		$res = $do->fetch(PDO::FETCH_ASSOC);
 
 		if ((list($w, $h) = getimagesize($res['path_photo'])) && ($w > 1420 || $h > 700)){
+			echo ("<script>console.log('ici');</script>");
 			resize_if($w, $h, $res, true);
 			list($w, $h) = getimagesize($res['path_photo']);
+			echo $w."\t".$h;
 
 		}
 
@@ -120,6 +123,8 @@
 						var myimg = document.getElementById('myimg');
 						var filid = document.getElementById('filter_id');
 						var filna = document.getElementById('filter_na');
+						var filidf = document.getElementById('filter_idf');
+						var filnaf = document.getElementById('filter_naf');
 							if (id > 2){
 								if (myimg.clientWidth < myimg.clientHeight){
 								canvas.style.width= "50%";
@@ -144,6 +149,8 @@
 							canvas.src = name;
 							filid.value = id;
 							filna.value = name;
+							filidf.value = id;
+							filnaf.value = name;
 						}
 				</script>
 			</div>
@@ -152,13 +159,13 @@
 				<input type="hidden" name="photo" value="<?php echo $res['path_photo'];?>">
 				<input id="filter_id" type="hidden" name="filter_id" value="1">
 				<input id="filter_na" type="hidden" name="filter_name" value="./other/filters/frame_filter.png">
-				<input type="submit" name="subfilter" value="Add another filter">
+				<input type="submit" name="submit" value="Add another filter">
 			</form>
-			<form method="POST" action="submitfinalphoto.php">
+			<form method="POST" action="addfilter.php">
 				<input type="hidden" name="photo" value="<?php echo $res['path_photo'];?>">
-				<input id="filter_id" type="hidden" name="filter_id" value="1">
-				<input id="filter_na" type="hidden" name="filter_name" value="./other/filters/frame_filter.png">
-				<input type="submit" name="subfinal" value="Submit">
+				<input id="filter_idf" type="hidden" name="filter_id" value="1">
+				<input id="filter_naf" type="hidden" name="filter_name" value="./other/filters/frame_filter.png">
+				<input type="submit" name="submit" value="Submit">
 			</form>
 		</center></div>
 	</div>
@@ -166,5 +173,10 @@
 	}
 ?>
 </div>
+<?php
+	}else{
+		header("Location: ./loginaccount.php");
+	}
+	?>
 </body>
 </html>

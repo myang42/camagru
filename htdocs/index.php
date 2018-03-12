@@ -14,7 +14,7 @@
 		require_once("menunav.php");
 		include("footer.html");
 		session_start();
-		// require_once("install.php");
+		require_once('install.php');
 		require_once('./database.php');
 		include("./verification.php");
 		$bd = new PDO($DB_DSN , $DB_USER, $DB_PASSWORD);
@@ -36,8 +36,8 @@
 					<img src="<?php echo $me['avatar']; ?>" id="useravatar">
 					<!-- <div id="useravatar" style=""></div> -->
 
-				<h1><?php echo ($_SESSION['user']);?></h1>
-				<p><?php echo ($_SESSION['mail']);?></p>
+				<h1 style="font-size:100%;word-wrap: break-word;"><?php echo ($_SESSION['user']);?></h1>
+				<p style="word-wrap: break-word;"><?php echo ($_SESSION['mail']);?></p>
 				<p>Membre since: <?php echo ($_SESSION['date_inscription']);?></p>
 				<a href="accmodif.php">modifier</a>
 				</div>
@@ -97,11 +97,6 @@
 										background-image:url('<?php echo ''.$elem['acces_path'] ; ?>');
 										background-repeat : no-repeat;
 										background-position: 50% 50%;
-										<?php
-											if (($size = getimagesize($elem['acces_path'])) && $size[0] >= 525){
-												echo 'background-size:100%;';
-											}
-										?>
 										height:100%;
 										width:100%;"
 										></div>

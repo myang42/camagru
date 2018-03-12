@@ -6,7 +6,7 @@
 		var canvas	 = document.getElementById('canvas');
 		// var photo	= document.querySelector('#photo');
 		var startbutton	= document.querySelector('#startbutton');
-		var freeze	= document.querySelector('#freeze');
+
 
 		var width = 320;
 		var height = 0;
@@ -21,6 +21,7 @@
 				sound : false //audio off
 			},
 			function(stream){ //on success
+				console.log(stream);
 				if(navigator.mozGetUserMedia){
 					video.mozSrcObject = stream;
 				} else {
@@ -60,9 +61,4 @@
 			startbutton.addEventListener('click', function(ev){
 				takepicture();
 				ev.preventDefault();
-			}, false);
-
-			freeze.addEventListener('click', function(st){
-				console.log("please, stop!");
-				video.freeze();
 			}, false);

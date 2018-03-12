@@ -1,0 +1,37 @@
+.dataarea{
+	position: relative;
+    top: 8em;
+    display: block;
+	height: 55em;
+}
+
+.personnalinfos{
+	margin: 0 auto;
+	height: 100%;
+}
+
+.personnalphoto{
+	margin: 0 auto;
+    height: 100%;
+}
+
+.dataarea table{
+	width: 80%;
+	margin: 0 auto;
+	min-width: 440px;
+	max-width: 700px;
+}
+
+.dataarea td{
+	background-color:#fbddc7;
+	padding-left:1%;
+	padding:4%;
+}
+
+td:nth-child(even) {
+    background-color: #FDE4CF;
+}
+
+.dataarea .personnalinfos input{
+	float:right;
+}

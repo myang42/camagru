@@ -1,6 +1,7 @@
 <?php
 session_start();
 require_once("database.php");
+if ($_SESSION['username']){
 $connect = new PDO($DB_DSN , $DB_USER, $DB_PASSWORD);
 
 $title = $_POST['title'];
@@ -39,5 +40,6 @@ if (!($_FILES['img']['name']) ||
 			$act = $connect->prepare($req);
 			$act->execute();
 	}
+}
 	header ('Location: ./index.php');
 ?>

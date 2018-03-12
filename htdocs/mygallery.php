@@ -10,7 +10,8 @@
 	<body>
 <?php
 	require_once("menunav.php");
-	// include('uploadimg.php')
+	session_start();
+	if ($_SESSION['username']){
 ?>
 	<div class="choice">
 		<center>
@@ -30,7 +31,7 @@
 		</div>
 		<div id="selectmode" style="display=block">
 			<ul>
-				<li><a href="cam.php" style="width:100%;height:100%;display:block">Take picture</a></li>
+				<li><a href="camagru.php" style="width:100%;height:100%;display:block">Take picture</a></li>
 				<li>
 					<a href="#" style="width:100%;height:100%;display:block" onclick="displayselectfile()">Upload an image</a>
 				</li>
@@ -47,3 +48,9 @@
 			type.style.display = "none";
 		}
 	</script>
+	<?php
+	}else{
+		header("Location: ./loginaccount.php");
+	}
+	?>
+</body></html>

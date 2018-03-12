@@ -1,7 +1,7 @@
 .mymodal{
 	display:none;
 	position: fixed;
-	z-index:1;
+	z-index:11;
 	padding-top:100px;
 	left:0;
 	top:0;
@@ -18,8 +18,10 @@
 	/* padding:20px; */
 	padding:2%;
 	border: 1px solid #888;
-	width:80%;
-	height:80%;
+	/* width:80%;
+	height:80%; */
+	width:1050px;
+	height:720px;
 }
 
 .close{
@@ -27,6 +29,9 @@
 	float:right;
 	font-size: 28px;
 	font-weight: bold;
+	position:relative;
+	top:-22px;
+	right:-10px;
 }
 
 
@@ -37,20 +42,44 @@
 }
 
 .textphoto{
-	display:inline-block;
-	position:absolute;
-	width:25%;
-	height:100%;
+	float:right;
+	width:40%;
 }
 
 .infosmodal{
-width:100%;
-display:block;
+	width:100%;
+	height:25%;
+	padding:1%;
 }
 
 .commmodal{
-border: 2px solid black;
-width:100%;
-display:block;
+	background-color: #FDE4CF;
+	margin-left:1%;
+	padding : 2%;
+	border-radius: 10px;
 
+}
+
+.photocontent{
+	width:60%;
+	float:left;
+}
+
+table{
+}
+
+tr{
+	height:100px;
+}
+
+td, th {
+	border-radius: 10px;
+    border: 1px solid #E79A7D;
+	background-color: #FAF9F5;
+    text-align: left;
+    padding: 8px;
+}
+
+.pagination{
+    padding: 1%;
 }

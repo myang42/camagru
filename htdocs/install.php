@@ -65,10 +65,10 @@
 
 
 		// <-- CREATION DE LA DATABASE POUR LIKEs -->
-		$req = 'CREATE TABLE IF NOT EXISTS lik(
+		$req = 'CREATE TABLE IF NOT EXISTS like_photos(
 							id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
 							iduser INT NOT NULL,
-							idpost INT NOT NULL,
+							idpost INT NOT NULL
 		);';
 		$do = $connect->prepare($req);
 		$do->execute();
@@ -84,7 +84,12 @@
 							path_img VARCHAR(254) DEFAULT null
 		);';
 		$do = $connect->prepare($req);
-		if ($do->execute()){
+		$do->execute();
+		$req = 'SELECT * FROM filters_table';
+		$do = $connect->prepare($req);
+		$do->execute();
+		$res = $do->fetch(PDO::FETCH_ASSOC);
+		if (!$res){
 			$req2 = "INSERT INTO filters_table(path_img)
 					VALUES ('./other/filters/frame_filter.png'),
 						('./other/filters/frame_filter2.png'),

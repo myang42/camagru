@@ -6,7 +6,7 @@
 		<a href="index.php" style="position:inherit;margin:0;padding:0;width:100%;"><img src="./other/icons8-home-50.png" alt="home" title="home" ></a>
 	</div>
 	<div class="iconmenul iconm" id="photoicon" style="display:inline-block;">
-		<a href="cam.php" style="position:inherit;margin:0;padding:0;width:100%;"><img src="./other/icons8-compact-camera-50.png" alt="cam" title="cam" ></a>
+		<a href="camagru.php" style="position:inherit;margin:0;padding:0;width:100%;"><img src="./other/icons8-compact-camera-50.png" alt="cam" title="cam" ></a>
 	</div>
 
 	<!--    RIGHT NAV MENU  !-->

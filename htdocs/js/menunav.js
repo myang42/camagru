@@ -3,6 +3,9 @@ window.onresize = resizeall;
 
 var url = location.href;
 var decoupe = url.match(/\/([^\/]*)(?=\.php)/);
+if (!decoupe){
+	decoupe = ["index", "index"];
+}
 
 // function resizeindex(){
 // 	var menu = document.getElementById('menu');
