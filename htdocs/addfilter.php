@@ -14,7 +14,6 @@
 		$do2 = $connect->prepare($req);
 		$do2->execute();
 		$res = $do2->fetch(PDO::FETCH_ASSOC);
-		echo $_POST['submit'];
 		if ($res['path_img'] != $acces || !$res['path_img'] || ($answer != "Add another filter" && $answer != "Submit")){
 			echo '<script type="text/javascript">alert("ERROR : don\'t touch the HTML\'s datas if you want to continue.");
 			window.location.href  = "./customit.php";

@@ -67,8 +67,8 @@
 		// <-- CREATION DE LA DATABASE POUR LIKEs -->
 		$req = 'CREATE TABLE IF NOT EXISTS like_photos(
 							id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
-							iduser INT NOT NULL,
-							idpost INT NOT NULL
+							iduser VARCHAR(33) DEFAULT NULL,
+							idpost INT DEFAUlT NULL
 		);';
 		$do = $connect->prepare($req);
 		$do->execute();

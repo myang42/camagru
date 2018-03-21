@@ -1,0 +1,101 @@
+.minipostgallery{
+	background-color: black;
+	min-width:96px;
+	width:10vw;
+	min-height:96px;
+	height:10vw;
+	max-width:150px;
+	max-height:150px;
+	display:inline-block;
+	background-repeat: no-repeat;
+	background-position: 50% 50%;
+	background-size:150%;
+	position:relative;
+	padding: 5%;
+	margin-left:2%;
+	margin-right:2%;
+	margin-top:2%;"
+}
+
+.galleryarea{
+	border: 2px solid;
+	border-color: #ffb576;
+	width: 90%;
+	height: 85vh;
+	min-width: 720px;
+}
+
+.mainblockgallery{
+	width: 100%;
+    height: 84%;
+    display: block;
+    position: absolute;
+    top: 6em;
+	}
+
+#table_gallery{
+	overflow-x: auto;
+	width: 75%;
+}
+
+.photo_sc{
+	height: 45vh;
+	margin: 2%;
+	max-height: 65%;
+	max-width: 75%;
+	display: block;
+	background-repeat: no-repeat;
+	background-position: 50% 50%;
+	background-color: black;
+	background-size:contain;
+	position:relative;
+	margin-top: 0;
+	margin-bottom: 0;
+}
+
+.infophoto{
+	background-color: white;
+	border-style: double;
+	border-color: #ffa03f;
+	width: 30vh;
+	height: 15%;
+	padding-top: 1%;
+	padding-bottom: 1%;
+	border-radius: 15px 50px 15px;
+	float: left;
+	margin-left: 13%;
+	padding-left: 5%;
+	margin-top: 5%;
+	padding-right: 5%;
+	position: absolute;
+	bottom: 0;
+}
+
+.Nextgallery{
+    width: 50px;
+    height: 50px;
+	display:inline-block;
+	background-repeat: no-repeat;
+	background-position: 50% 50%;
+	position:relative;
+	padding: 5%;
+	margin-left:2%;
+	margin-right:2%;
+	margin-top:2%;
+}
+
+.delfromgallery{
+    width: 50px;
+    height: 50px;
+	display:inline-block;
+	background-repeat: no-repeat;
+	background-position: 50% 50%;
+	position:relative;
+	border: none;
+	background-color: rgba(0,0,0,0);
+	bottom: 0;
+}
+
+#DEL_:hover,#DEL_:focus{
+	cursor:pointer;
+}

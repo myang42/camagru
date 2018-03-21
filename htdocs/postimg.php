@@ -19,7 +19,7 @@
 	$connect = new PDO($DB_DSN , $DB_USER, $DB_PASSWORD);
 
 	// <-- ON POST LA PHOTO SI TOUT EST EN REGLE -->
-	if ($_SERVER['REQUEST_METHOD'] == 'POST'){
+	if ($_SERVER['REQUEST_METHOD'] == 'POST' ){
 		$title = htmlspecialchars($_POST['title'], ENT_QUOTES | ENT_HTML5 );
 		$desc = htmlspecialchars($_POST['descriptionfile'], ENT_QUOTES | ENT_HTML5 );
 		if (strlen($desc) >= 254){
@@ -75,7 +75,7 @@
 		$do = $connect->prepare($req);
 		$do->execute();
 		$res = $do->fetch(PDO::FETCH_ASSOC);
-	}
+		if (file_exists($res['path_photo'])){
 ?>
 
 <div class="bfrpst" >
@@ -99,8 +99,11 @@
 	</div>
 </div>
 <?php
-	}else{
-		header("Location: ./loginaccount.php");
+	}else
+		header("Location: ./mygallery.php");
+		}
 	}
+	else
+		header("Location: ./loginaccount.php");
 	?>
 </body></html>

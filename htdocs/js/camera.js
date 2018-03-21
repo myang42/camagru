@@ -1,4 +1,3 @@
-		console.log('OH');
 		var streaming = false;
 		var dakor = document.querySelector('#dakor');
 		var video	= document.querySelector('#video');

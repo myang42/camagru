@@ -1,17 +1,16 @@
 <?php
 session_start();
 include("./verification.php");
-if (($who = login()) != 0){
-	$_SESSION['user'] = $_POST['user'];
-	$_SESSION['mail'] = $who['mail'];
-	$_SESSION['password'] = $who['password'];
-	$_SESSION['date_inscription'] = $who['date_inscription'];
-	$_SESSION['username'] = $who['username'];
-}
-else{
-	$_SESSION['user'] = NULL;
-	$_SESSION['mail'] = NULL;
-	$_SESSION['date'] = NULL;
+if (!$_SESSION['username'])
+{
+	if (($who = login()) != 0){
+		mail('magapadie@gmail.com', 'BONJOUR_MOI', 'CONTENT');
+		$_SESSION['user'] = $_POST['user'];
+		$_SESSION['mail'] = $who['mail'];
+		$_SESSION['password'] = $who['password'];
+		$_SESSION['date_inscription'] = $who['date_inscription'];
+		$_SESSION['username'] = $who['username'];
+	}
 }
 header ('Location: ./index.php');
 

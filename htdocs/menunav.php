@@ -30,7 +30,7 @@
 		?>
 
 	<div class="iconmenur iconm" id="searchicon">
-		<a href="faq.php" style="position:inherit;margin:0;padding:0;width:100%;"><img src="./other/icons8-help-50.png" alt="faq" title="faq" ></a>
+		<a href="gallery.php?user=<?php echo $_SESSION['user'];?>" style="position:inherit;margin:0;padding:0;width:100%;"><img src="./other/icons8-photo-gallery-50.png" alt="Gallery" title="Gallery" ></a>
 
 		<!-- <a href="mygallery.php" style="position:inherit;margin:0;padding:0;width:100%;"><img src="./other/icons8-photo-gallery-50.png" alt="myGallery" title="myGallery" ></a> -->
 	</div>
@@ -38,7 +38,7 @@
 		<?php
 			if ($_SESSION['user'] != NULL){
 					?>
-					<a href="mygallery.php" style="position:inherit;margin:0;padding:0;width:100%;"><img src="./other/icons8-photo-gallery-50.png" alt="myGallery" title="myGallery" ></a>
+					<a href="mygallery.php" style="position:inherit;margin:0;padding:0;width:100%;"><img src="./other/icons8-modifier-limage-50.png" alt="AddFile" title="AddFile" ></a>
 
 		<?php
 		}

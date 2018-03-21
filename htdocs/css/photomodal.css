@@ -13,15 +13,14 @@
 }
 
 .modalcontent{
-	background-color:#fefefe;
-	/* margin:auto; */
-	/* padding:20px; */
-	padding:2%;
-	border: 1px solid #888;
-	/* width:80%;
-	height:80%; */
-	width:1050px;
-	height:720px;
+	background-color: #fefefe;
+    width: 85%;
+    min-width: 720px;
+    padding: 2%;
+    border: 1px solid #888;
+    height: 60vh;
+    display: block;
+    position: unset;
 }
 
 .close{

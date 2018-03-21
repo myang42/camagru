@@ -2,7 +2,7 @@
 	session_start();
 	require_once("database.php");
 	include("verification.php");
-	if ($_SESSION['usermame']){
+	if ($_SESSION['username']){
 
 	$bd = new PDO($DB_DSN , $DB_USER, $DB_PASSWORD);
 

@@ -19,7 +19,6 @@
 		include("./verification.php");
 		$bd = new PDO($DB_DSN , $DB_USER, $DB_PASSWORD);
 
-
 		// include("gallery_plus.php");
 		// require_once("index.html");
 		?>
@@ -39,7 +38,7 @@
 				<h1 style="font-size:100%;word-wrap: break-word;"><?php echo ($_SESSION['user']);?></h1>
 				<p style="word-wrap: break-word;"><?php echo ($_SESSION['mail']);?></p>
 				<p>Membre since: <?php echo ($_SESSION['date_inscription']);?></p>
-				<a href="accmodif.php">modifier</a>
+				<a href="./accmodif.php">modifier</a>
 				</div>
 				<?php
 					}
@@ -74,7 +73,10 @@
 
 					$nbr = 0;
 					$lim = (6 * ($current_page - 1));
-					$req = "SELECT gallery.idpic, accountinfos.user, accountinfos.avatar , gallery.acces_path , gallery.description, gallery.post_date, gallery.modif_date, gallery.title
+					$req = "SELECT gallery.idpic, accountinfos.user,
+					accountinfos.username, accountinfos.avatar ,
+					gallery.acces_path , gallery.description, gallery.post_date,
+					gallery.modif_date, gallery.title
 							FROM gallery
 							INNER JOIN accountinfos
 							ON gallery.iduser = accountinfos.id
@@ -87,6 +89,7 @@
 								$link = preg_replace('/.*(?<=\/)/', '', $elem['acces_path']);
 								?>
 
+								<!-- //start modal -->
 								<div class="mymodal" id="<?php echo $nbr ?>">
 									<div class="modalcontent">
 									<span class="close cursor" onclick="closeModal(<?php echo $nbr; ?>)">&times;</span>
@@ -97,10 +100,11 @@
 										background-image:url('<?php echo ''.$elem['acces_path'] ; ?>');
 										background-repeat : no-repeat;
 										background-position: 50% 50%;
+										background-size: contain;
 										height:100%;
-										width:100%;"
-										></div>
-										</div>
+										width:100%;">
+											</div>
+											</div>
 										<div class="textphoto">
 											<div class="infosmodal">
 											<div style="background-color: black;
@@ -108,8 +112,8 @@
 											background-repeat : no-repeat;
 											background-position: 50% 50%;
 											background-size:100%;
-											height:150px;
-											width:150px;
+											height: 10vw;
+											width: 10vw;
 											float:left"></div>
 											<?php
 											echo "<span style='float:left;color:E58331; padding-left:2%'><b>" .$elem['user']. "</b></span>";
@@ -120,11 +124,56 @@
 												echo $elem['modif_date'] . "</span>";
 											echo "<br />";
 											echo "<p style='float:right; width:60%;margin:0;'>
-											<span style='font-size:1.7em; padding-left:2%;float:left;'><b>" . $elem['title']."</b></span>
-											<br / >
-											<span style='float:left;padding:1%;'>\"" . $elem['description'] . "\"</span></p>";
+											<span style='font-size:1em; padding-left:2%;float:left;word-wrap: break-word;'><b>" . $elem['title']."</b></span>
+											<br / ><br />
+											<span style='padding: 1%;
+														word-wrap: break-word;'>\"" . $elem['description'] . "\"</span></p>";
 											?>
 										</div>
+											<!-- Ajout d'un LIKE / suppression -->
+											<?php
+												if ($_SESSION['username']){
+													if ($_SESSION['username'] != $elem['username']){
+														$doulik = "SELECT like_photos.iduser, like_photos.idpost, accountinfos.username, accountinfos.id FROM like_photos
+																	INNER JOIN accountinfos
+																	ON accountinfos.id = like_photos.iduser
+																	WHERE accountinfos.username='" . $_SESSION['username']."'
+																	AND like_photos.idpost=".$elem['idpic'].";";
+															$dodoulik = $bd->prepare($doulik);
+															$dodoulik->execute();
+															$reslik = $dodoulik->fetch(PDO::FETCH_ASSOC);
+														?>
+															<form action="addlike.php" method="post">
+																<input type="hidden" value=<?php echo $current_page; ?> name="pos">
+																<button name="sublike" type="submit" value="<?php echo $elem['idpic']; ?>"
+																	title="LIKE PHOTO"
+																	class="likbut"
+																	style="
+																	<?php
+																		if ($reslik['idpost']){
+																			?>
+																			background-image:url('./other/icons8-facebook-like-50.png');
+																			<?php
+																		}else{
+																			?>
+																			background-image:url('./other/icons8-facebook-like-50_.png');
+																			<?php
+																		}
+																	?>"></button>
+															</form>
+														<?php
+													}else if ($_SESSION['username'] == $elem['username']){
+														?>
+														<form action="supprimg.php" method="post">
+															<input type="hidden" value=<?php echo $current_page; ?> name="pos">
+															<button name="subsuppr" type="submit" value="<?php echo $elem['idpic']; ?>" class="likbut"
+																style="background-image:url('./other/icons8-supprimer-limage-50.png');"
+																title="DELETE PHOTO"></button>
+														</form>
+												<?php
+													}
+												}
+											?>
 										<br />
 												<!-- Ajouter un Commentaire START-->
 
@@ -134,14 +183,16 @@
 													?>
 												<form  method="post" action="./sendingnewcom.php">
 													<textarea value="" name="commentaire" style="margin:0;
-																								padding:0;
+																								padding:5%;
 																								width:100%;
-																								height:150px;
+																								height:100px;
 																								resize: none;
 																								border-radius: 10px;
 																								border-color: #E79A7D"></textarea>
-													<input type="hidden" name="photoid" value="<?php echo $elem['idpic']; ?>">
-													<input type="submit" name="submitcom" value="Submit">
+													<input type="hidden" name="pos" value="<?php echo $current_page;?>">
+													<button type="submit" name="pict" value="<?php echo $elem['idpic']; ?>" class="commbut"
+															style="background-image:url('./other/icons8-envoyer-64.png');">
+													</button>
 												</form>
 												<?php
 											}
@@ -152,19 +203,23 @@
 												<div style="width:100%; height:295px;overflow:auto">
 												<table style="width:100%;">
 												<?php
-													$comreq = "SELECT comm.content, comm.post_date, accountinfos.user, accountinfos.avatar
+													$comreq = "SELECT comm.content, comm.post_date, accountinfos.user, comm.iduser, accountinfos.id
 																FROM gallery
 																INNER JOIN comm
 																ON gallery.idpic = comm.idpost
-																INNER JOIN accountinfos
-																ON accountinfos.id = gallery.iduser
+																LEFT JOIN accountinfos
+																ON accountinfos.id = comm.iduser
 																WHERE comm.idpost = ". $elem['idpic']."
 																ORDER BY post_date DESC;";
 													$commdo = $bd->prepare($comreq);
 													$commdo->execute();
 													while($commcont = $commdo->fetch(PDO::FETCH_ASSOC)){
 														?>
-															<tr><th><?php echo $commcont['content']; ?></th></tr>
+															<tr><th><?php 	echo "<span style='float:left;color:#FFAA7C;'>" . $commcont['user']."</span>";
+																			echo "<span style='float:right;font-size:0.6em; color:#ababab;'>";
+																			echo $commcont['post_date']."</span><br />";
+																			echo "<p style='padding-left: 5%;
+																				    margin: 0;'>" . $commcont['content'] . "</p>"; ?></th></tr>
 														<?php
 													}
 												?>
@@ -173,29 +228,24 @@
 
 											</div>
 										</div>
+											<!-- //end of modal -->
+
 									</div>
 								</div>
 
+
 									<div
-									style="
-									background-color: black;
-									background-image:url('<?php echo ''.$elem['acces_path'] ; ?>');
-									min-width:96px;
-									width:10vw;
-									min-height:96px;
-									height:10vw;
-									max-width:150px;
-									max-height:150px;
-									display:inline-block;
-									background-repeat: no-repeat;
-									background-position: 50% 50%;
-									background-size:150%;
-									position:relative;
-									padding: 5%;
-									margin-left:2%;
-									margin-right:2%;
-									margin-top:2%;"
-									onclick="openModal(<?php echo $nbr; ?>);">
+									style="background-image:url('<?php echo ''.$elem['acces_path'] ; ?>');"
+									class="minipost"
+									onclick="openModal(<?php echo $nbr;?> );">
+									<!-- <a href=""
+										onclick="function(){
+
+
+										}"
+										class="linktopost">
+									</a> -->
+
 								</div>
 								<?php
 								}
